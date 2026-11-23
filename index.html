@@ -1,1 +1,352 @@
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#063456"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="رحلاتي"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icons/icon-180.png"><title>مصروفاتي | مشاهدة فقط</title><style>body{margin:0;background:#f1f7fa;color:#173349;font:16px Tahoma,Arial,sans-serif}header{background:linear-gradient(115deg,#063456,#00a7a4);color:white;padding:14px 18px;display:flex;align-items:center;justify-content:space-between}h1{font-size:21px;margin:0}button,input{font:inherit;border-radius:10px;padding:12px;border:1px solid #aacbd2}button{background:#067d83;color:white;cursor:pointer}main{max-width:650px;margin:24px auto;padding:16px}.card{background:white;border-radius:16px;padding:22px;box-shadow:0 2px 15px #1232}input{width:100%;box-sizing:border-box;direction:ltr;margin:12px 0}.muted{color:#617783;font-size:13px;line-height:1.8}#viewer{width:100%;height:calc(100dvh - 63px);border:0;display:none}#logout{display:none}a{color:#086f78;overflow-wrap:anywhere}#status{font-size:13px;color:#9a4d18;margin-top:12px}</style></head><body><header><h1>✈️ رحلاتي — مشاهدة فقط</h1><button id="logout" type="button">تغيير الرمز</button></header><main id="setup"><div class="card"><h2>فتح نسخة المشاهدة</h2><p>أدخل رمز المشاهدة الذي حصلت عليه من مسؤول التطبيق. لن يُنشر الرمز في ملفات GitHub؛ سيُحفظ على جهازك بعد إدخاله.</p><label for="key">رمز المشاهدة</label><input id="key" type="password" autocomplete="off" placeholder="أدخل الرمز"><button id="open" type="button">فتح رحلاتي</button><p id="status" role="status"></p><p class="muted">يُحفظ الرمز على هذا الجهاز حتى تضغط «تغيير الرمز» أو تمسح بيانات الموقع. لا تستخدم هذه الميزة على جهاز مشترك. قد يظهر الرمز في عنوان طلب Google Apps Script داخل أدوات المطور أو سجلات التصفح. من يملك الرمز يستطيع الوصول للمشاهدة. لا ترسل الرمز لأشخاص غير مخولين.</p></div></main><iframe id="viewer" title="رحلاتي - مشاهدة فقط" referrerpolicy="no-referrer" allow="fullscreen"></iframe><script>const BASE="https://script.google.com/macros/s/AKfycbz49mM_qovzQwVENyQzEOoU_LX81OSRKUne3S_HtQAijv3pW1N6iFWayuxVeHgqFbwUFg/exec";const $=id=>document.getElementById(id);function show(k){$('viewer').src=BASE+'?key='+encodeURIComponent(k);$('viewer').style.display='block';$('setup').style.display='none';$('logout').style.display='inline-block'}$('open').onclick=()=>{const k=$('key').value.trim();if(!k){$('status').textContent='أدخل رمز المشاهدة أولاً';return}localStorage.setItem('rihlatiViewerKey',k);$('key').value='';show(k)};$('logout').onclick=()=>{localStorage.removeItem('rihlatiViewerKey');$('viewer').src='about:blank';$('viewer').style.display='none';$('setup').style.display='block';$('logout').style.display='none'};const existing=localStorage.getItem('rihlatiViewerKey');if(existing)show(existing);if('serviceWorker'in navigator)navigator.serviceWorker.register('./service-worker.js').catch(()=>{});</script></body></html>
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1,viewport-fit=cover"
+  >
+
+  <meta name="theme-color" content="#063456">
+
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+  >
+
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="default"
+  >
+
+  <meta
+    name="apple-mobile-web-app-title"
+    content="مصروفاتي"
+  >
+
+  <link
+    rel="manifest"
+    href="./manifest.webmanifest"
+  >
+
+  <link
+    rel="apple-touch-icon"
+    href="./icons/icon-180.png"
+  >
+
+  <title>مصروفاتي | مشاهدة فقط</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: #f1f7fa;
+      color: #173349;
+      font: 16px Tahoma, Arial, sans-serif;
+    }
+
+    header {
+      background: linear-gradient(
+        115deg,
+        #063456,
+        #00a7a4
+      );
+      color: white;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    h1 {
+      font-size: 21px;
+      margin: 0;
+    }
+
+    button,
+    input {
+      font: inherit;
+      border-radius: 10px;
+      padding: 12px;
+      border: 1px solid #aacbd2;
+    }
+
+    button {
+      background: #067d83;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:active {
+      background: #045c65;
+      transform: scale(0.98);
+    }
+
+    main {
+      max-width: 650px;
+      margin: 24px auto;
+      padding: 16px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 2px 15px #1232;
+    }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      direction: ltr;
+      margin: 12px 0;
+    }
+
+    .muted {
+      color: #617783;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    #viewer {
+      width: 100%;
+      height: calc(100dvh - 63px);
+      border: 0;
+      display: none;
+    }
+
+    #logout {
+      display: none;
+    }
+
+    a {
+      color: #086f78;
+      overflow-wrap: anywhere;
+    }
+
+    #status {
+      font-size: 13px;
+      color: #9a4d18;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 12px;
+        gap: 8px;
+      }
+
+      h1 {
+        font-size: 17px;
+      }
+
+      #logout {
+        font-size: 13px;
+        padding: 9px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- الشريط العلوي -->
+  <header>
+
+    <h1>💳 مصروفاتي — مشاهدة فقط</h1>
+
+    <button
+      id="logout"
+      type="button"
+    >
+      تغيير الرمز
+    </button>
+
+  </header>
+
+  <!-- إدخال رمز المشاهدة -->
+  <main id="setup">
+
+    <div class="card">
+
+      <h2>فتح نسخة المشاهدة</h2>
+
+      <p>
+        أدخل رمز المشاهدة الذي حصلت عليه من
+        مسؤول التطبيق.
+        لن يُنشر الرمز في ملفات GitHub؛
+        سيُحفظ على جهازك بعد إدخاله.
+      </p>
+
+      <label for="key">
+        رمز المشاهدة
+      </label>
+
+      <input
+        id="key"
+        type="password"
+        autocomplete="off"
+        placeholder="أدخل الرمز"
+      >
+
+      <button
+        id="open"
+        type="button"
+      >
+        فتح مصروفاتي
+      </button>
+
+      <p
+        id="status"
+        role="status"
+      ></p>
+
+      <p class="muted">
+        يُحفظ الرمز على هذا الجهاز حتى تضغط
+        «تغيير الرمز» أو تمسح بيانات الموقع.
+
+        لا تستخدم هذه الميزة على جهاز مشترك.
+
+        قد يظهر الرمز في عنوان طلب
+        Google Apps Script داخل أدوات المطور
+        أو سجلات التصفح.
+
+        من يملك الرمز يستطيع الوصول للمشاهدة.
+
+        لا ترسل الرمز لأشخاص غير مخولين.
+      </p>
+
+    </div>
+
+  </main>
+
+  <!-- واجهة تطبيق المشاهدة -->
+  <iframe
+    id="viewer"
+    title="مصروفاتي - مشاهدة فقط"
+    referrerpolicy="no-referrer"
+    allow="fullscreen"
+  ></iframe>
+
+  <script>
+
+    // ==========================================
+    // رابط تطبيق المشاهدة في Google Apps Script
+    // ==========================================
+
+    const BASE =
+      "https://script.google.com/macros/s/AKfycbz49mM_qovzQwVENyQzEOoU_LX81OSRKUne3S_HtQAijv3pW1N6iFWayuxVeHgqFbwUFg/exec";
+
+
+    // ==========================================
+    // أدوات مساعدة
+    // ==========================================
+
+    const $ = id =>
+      document.getElementById(id);
+
+
+    // ==========================================
+    // فتح تطبيق مصروفاتي للمشاهدة
+    // ==========================================
+
+    function show(k) {
+
+      $('viewer').src =
+        BASE + '?key=' + encodeURIComponent(k);
+
+      $('viewer').style.display = 'block';
+
+      $('setup').style.display = 'none';
+
+      $('logout').style.display = 'inline-block';
+
+    }
+
+
+    // ==========================================
+    // إدخال رمز المشاهدة
+    // ==========================================
+
+    $('open').onclick = () => {
+
+      const k = $('key').value.trim();
+
+      if (!k) {
+
+        $('status').textContent =
+          'أدخل رمز المشاهدة أولاً';
+
+        return;
+
+      }
+
+      // الإبقاء على مفتاح التخزين السابق
+      // حتى لا يفقد المستخدمون الرمز المحفوظ
+
+      localStorage.setItem(
+        'rihlatiViewerKey',
+        k
+      );
+
+      $('key').value = '';
+
+      show(k);
+
+    };
+
+
+    // ==========================================
+    // تغيير رمز المشاهدة
+    // ==========================================
+
+    $('logout').onclick = () => {
+
+      localStorage.removeItem(
+        'rihlatiViewerKey'
+      );
+
+      $('viewer').src = 'about:blank';
+
+      $('viewer').style.display = 'none';
+
+      $('setup').style.display = 'block';
+
+      $('logout').style.display = 'none';
+
+    };
+
+
+    // ==========================================
+    // استعادة رمز المشاهدة المحفوظ
+    // ==========================================
+
+    const existing = localStorage.getItem(
+      'rihlatiViewerKey'
+    );
+
+    if (existing) {
+
+      show(existing);
+
+    }
+
+
+    // ==========================================
+    // تسجيل Service Worker
+    // ==========================================
+
+    if ('serviceWorker' in navigator) {
+
+      navigator.serviceWorker
+        .register('./service-worker.js')
+        .catch(() => {});
+
+    }
+
+  </script>
+
+</body>
+</html>
