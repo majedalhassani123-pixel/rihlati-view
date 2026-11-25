@@ -3,350 +3,1758 @@
 <html lang="ar" dir="rtl">
 
 <head>
-  <meta charset="utf-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width,initial-scale=1,viewport-fit=cover"
-  >
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover">
 
   <meta name="theme-color" content="#063456">
 
-  <meta
-    name="apple-mobile-web-app-capable"
-    content="yes"
-  >
+  <meta name="apple-mobile-web-app-capable"
+        content="yes">
 
-  <meta
-    name="apple-mobile-web-app-status-bar-style"
-    content="default"
-  >
+  <meta name="apple-mobile-web-app-status-bar-style"
+        content="default">
 
-  <meta
-    name="apple-mobile-web-app-title"
-    content="مصروفاتي"
-  >
+  <meta name="apple-mobile-web-app-title"
+        content="مصروفاتي">
 
-  <link
-    rel="manifest"
-    href="./manifest.webmanifest"
-  >
+  <meta name="description"
+        content="مصروفاتي - عرض المصروفات والتقارير المالية والفواتير في وضع المشاهدة فقط">
 
-  <link
-    rel="apple-touch-icon"
-    href="./icons/icon-180.png"
-  >
+  <meta name="referrer" content="no-referrer">
+
+  <link rel="manifest"
+        href="./manifest.webmanifest">
+
+  <link rel="apple-touch-icon"
+        href="./icons/icon-180.png">
+
+  <link rel="icon"
+        type="image/png"
+        href="./icons/icon-192.png">
 
   <title>مصروفاتي | مشاهدة فقط</title>
 
   <style>
-    body {
-      margin: 0;
-      background: #f1f7fa;
+
+    /* =====================================
+       مصروفاتي V1.0
+       GitHub PWA
+       ===================================== */
+
+    :root {
+
+      font-family: Tahoma, Arial, sans-serif;
+
       color: #173349;
-      font: 16px Tahoma, Arial, sans-serif;
+
+      background: #f1f7fa;
+
+      --primary: #087f83;
+
+      --dark: #063456;
+
+      --light: #00a7a4;
+
     }
+
+    * {
+
+      box-sizing: border-box;
+
+    }
+
+    html, body {
+
+      margin: 0;
+
+      width: 100%;
+
+      height: 100%;
+
+      overflow: hidden;
+
+    }
+
+    body {
+
+      display: flex;
+
+      flex-direction: column;
+
+      height: 100vh;
+
+      height: 100dvh;
+
+    }
+
+    /* =====================================
+       رأس التطبيق
+       ===================================== */
 
     header {
+
+      flex-shrink: 0;
+
       background: linear-gradient(
-        115deg,
-        #063456,
-        #00a7a4
+        135deg,
+        var(--dark),
+        var(--light)
       );
+
       color: white;
+
       padding: 14px 18px;
+
+      padding-top: max(
+        14px,
+        env(safe-area-inset-top)
+      );
+
       display: flex;
-      align-items: center;
+
       justify-content: space-between;
+
+      align-items: center;
+
+      gap: 12px;
+
+      z-index: 10;
+
     }
 
-    h1 {
-      font-size: 21px;
+    header h1 {
+
+      font-size: 20px;
+
       margin: 0;
+
+      line-height: 1.6;
+
     }
 
-    button,
-    input {
-      font: inherit;
-      border-radius: 10px;
-      padding: 12px;
-      border: 1px solid #aacbd2;
-    }
+    header button {
 
-    button {
-      background: #067d83;
+      background: #ffffff20;
+
+      border: 1px solid #ffffff70;
+
       color: white;
-      cursor: pointer;
+
+      padding: 10px 15px;
+
+      border-radius: 10px;
+
+      font-size: 13px;
+
+      white-space: nowrap;
+
     }
 
-    button:active {
-      background: #045c65;
-      transform: scale(0.98);
+    /* =====================================
+       مساحة التطبيق
+       ===================================== */
+
+    .app-content {
+
+      flex: 1;
+
+      min-height: 0;
+
+      position: relative;
+
+      display: flex;
+
+      flex-direction: column;
+
+      overflow: hidden;
+
     }
 
     main {
-      max-width: 650px;
-      margin: 24px auto;
-      padding: 16px;
+
+      flex: 1;
+
+      min-height: 0;
+
+      width: 100%;
+
+      overflow-y: auto;
+
+      padding: 24px 16px;
+
+    }
+
+    .container {
+
+      max-width: 550px;
+
+      margin: 25px auto;
+
     }
 
     .card {
+
       background: white;
-      border-radius: 16px;
-      padding: 22px;
-      box-shadow: 0 2px 15px #1232;
+
+      padding: 28px;
+
+      border-radius: 20px;
+
+      box-shadow: 0 5px 25px #17334918;
+
     }
 
-    input {
-      width: 100%;
-      box-sizing: border-box;
-      direction: ltr;
-      margin: 12px 0;
+    /* =====================================
+       شعار التطبيق
+       ===================================== */
+
+    .app-brand {
+
+      text-align: center;
+
+      margin-bottom: 24px;
+
     }
 
-    .muted {
+    .app-icon {
+
+      width: 95px;
+
+      height: 95px;
+
+      border-radius: 22px;
+
+      object-fit: contain;
+
+      margin-bottom: 12px;
+
+    }
+
+    .app-brand h2 {
+
+      color: #063456;
+
+      margin: 0 0 8px;
+
+      font-size: 27px;
+
+    }
+
+    .app-brand p {
+
       color: #617783;
+
       font-size: 13px;
-      line-height: 1.8;
+
+      margin: 0;
+
+      line-height: 1.9;
+
     }
+
+    /* =====================================
+       إدخال رمز المشاهدة
+       ===================================== */
+
+    label {
+
+      display: block;
+
+      font-size: 14px;
+
+      font-weight: bold;
+
+      margin-bottom: 8px;
+
+    }
+
+    .password-field {
+
+      display: flex;
+
+      align-items: center;
+
+      border: 1px solid #bed0db;
+
+      border-radius: 11px;
+
+      overflow: hidden;
+
+      background: white;
+
+    }
+
+    .password-field:focus-within {
+
+      border-color: #087f83;
+
+      box-shadow: 0 0 0 3px #087f831a;
+
+    }
+
+    #keyInput {
+
+      width: 100%;
+
+      min-width: 0;
+
+      border: 0;
+
+      outline: none;
+
+      padding: 15px 10px;
+
+      font-family: Arial, sans-serif;
+
+      font-size: 16px;
+
+      direction: ltr;
+
+      text-align: center;
+
+      background: transparent;
+
+    }
+
+    #toggleKey {
+
+      flex-shrink: 0;
+
+      border: 0;
+
+      background: #edf6f7;
+
+      color: #087f83;
+
+      margin: 5px;
+
+      padding: 10px;
+
+      border-radius: 8px;
+
+      font-size: 12px;
+
+    }
+
+    /* =====================================
+       تذكر رمز المشاهدة
+       ===================================== */
+
+    .remember-row {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 9px;
+
+      margin-top: 16px;
+
+      cursor: pointer;
+
+    }
+
+    .remember-row input {
+
+      width: 19px;
+
+      height: 19px;
+
+      margin: 0;
+
+      accent-color: #087f83;
+
+    }
+
+    .remember-row span {
+
+      font-size: 13px;
+
+      font-weight: normal;
+
+      line-height: 1.7;
+
+    }
+
+    /* =====================================
+       الأزرار
+       ===================================== */
+
+    button {
+
+      font-family: inherit;
+
+      cursor: pointer;
+
+      transition: transform .12s ease,
+                  background-color .2s ease;
+
+      touch-action: manipulation;
+
+    }
+
+    button:active {
+
+      transform: scale(.97);
+
+    }
+
+    button:disabled {
+
+      opacity: .6;
+
+      cursor: wait;
+
+    }
+
+    button:focus-visible {
+
+      outline: 3px solid #30c7c0;
+
+      outline-offset: 2px;
+
+    }
+
+    .open-btn {
+
+      width: 100%;
+
+      border: 0;
+
+      padding: 14px;
+
+      margin-top: 18px;
+
+      border-radius: 11px;
+
+      background: linear-gradient(
+        135deg,
+        #087f83,
+        #086376
+      );
+
+      color: white;
+
+      font-size: 16px;
+
+      font-weight: bold;
+
+    }
+
+    .open-btn:hover {
+
+      background: #086f78;
+
+    }
+
+    /* =====================================
+       رسائل الحالة
+       ===================================== */
+
+    .status {
+
+      font-size: 13px;
+
+      text-align: center;
+
+      line-height: 1.8;
+
+      margin-top: 13px;
+
+      color: #087f83;
+
+      min-height: 18px;
+
+    }
+
+    .status.error {
+
+      color: #b42318;
+
+    }
+
+    .privacy {
+
+      background: #f1f7fa;
+
+      padding: 13px;
+
+      margin-top: 16px;
+
+      border-radius: 10px;
+
+      color: #617783;
+
+      font-size: 12px;
+
+      line-height: 1.9;
+
+    }
+
+    .notice {
+
+      flex-shrink: 0;
+
+      background: #fff2da;
+
+      color: #815b05;
+
+      padding: 10px 15px;
+
+      font-size: 13px;
+
+      text-align: center;
+
+      line-height: 1.8;
+
+      border-bottom: 1px solid #efd68a;
+
+    }
+
+    /* =====================================
+       إطار تطبيق المشاهدة
+       ===================================== */
 
     #viewer {
+
+      flex: 1;
+
+      min-height: 0;
+
       width: 100%;
-      height: calc(100dvh - 63px);
+
+      height: 100%;
+
       border: 0;
-      display: none;
+
+      display: block;
+
+      background: #f1f7fa;
+
     }
 
-    #logout {
-      display: none;
+    /* =====================================
+       شاشة التحميل
+       ===================================== */
+
+    .loading-overlay {
+
+      position: absolute;
+
+      inset: 0;
+
+      background: #f1f7faf5;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+      align-items: center;
+
+      gap: 15px;
+
+      z-index: 5;
+
+      padding: 20px;
+
+      text-align: center;
+
     }
 
-    a {
-      color: #086f78;
-      overflow-wrap: anywhere;
+    .spinner {
+
+      width: 42px;
+
+      height: 42px;
+
+      border: 4px solid #d4e4e9;
+
+      border-top-color: #087f83;
+
+      border-radius: 50%;
+
+      animation: spin .8s linear infinite;
+
     }
 
-    #status {
-      font-size: 13px;
-      color: #9a4d18;
-      margin-top: 12px;
+    @keyframes spin {
+
+      to {
+
+        transform: rotate(360deg);
+
+      }
+
     }
 
-    @media (max-width: 480px) {
+    .loading-text {
+
+      font-size: 14px;
+
+      color: #173349;
+
+    }
+
+    .loading-cancel {
+
+      border: 1px solid #bed0db;
+
+      background: white;
+
+      color: #087f83;
+
+      border-radius: 9px;
+
+      padding: 9px 17px;
+
+    }
+
+    /* =====================================
+       التذييل
+       ===================================== */
+
+    footer {
+
+      text-align: center;
+
+      color: #71848e;
+
+      font-size: 11px;
+
+      padding: 20px 5px;
+
+      line-height: 1.9;
+
+    }
+
+    .hidden {
+
+      display: none !important;
+
+    }
+
+    /* =====================================
+       التوافق مع الجوال
+       ===================================== */
+
+    @media (max-width: 600px) {
+
       header {
-        padding: 12px;
-        gap: 8px;
+
+        padding: 10px 12px;
+
+        padding-top: max(
+          10px,
+          env(safe-area-inset-top)
+        );
+
       }
 
-      h1 {
-        font-size: 17px;
+      header h1 {
+
+        font-size: 15px;
+
       }
 
-      #logout {
-        font-size: 13px;
-        padding: 9px;
+      header button {
+
+        font-size: 12px;
+
+        padding: 8px 10px;
+
       }
+
+      main {
+
+        padding: 16px 12px;
+
+      }
+
+      .container {
+
+        margin: 12px auto;
+
+      }
+
+      .card {
+
+        padding: 22px 17px;
+
+      }
+
+      .app-icon {
+
+        width: 82px;
+
+        height: 82px;
+
+      }
+
     }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      button {
+
+        transition: none;
+
+      }
+
+      .spinner {
+
+        animation: none;
+
+      }
+
+    }
+
   </style>
+
 </head>
 
 <body>
 
-  <!-- الشريط العلوي -->
+  <!-- رأس التطبيق -->
+
   <header>
 
-    <h1>💳 مصروفاتي — مشاهدة فقط</h1>
+    <h1>
+
+      💳 مصروفاتي — مشاهدة فقط
+
+    </h1>
 
     <button
-      id="logout"
       type="button"
-    >
+      id="logout"
+      class="hidden">
+
       تغيير الرمز
+
     </button>
 
   </header>
 
-  <!-- إدخال رمز المشاهدة -->
-  <main id="setup">
+  <!-- حالة الاتصال -->
 
-    <div class="card">
+  <div
+    id="connectionNotice"
+    class="notice hidden"
+    role="status">
 
-      <h2>فتح نسخة المشاهدة</h2>
+  </div>
 
-      <p>
-        أدخل رمز المشاهدة الذي حصلت عليه من
-        مسؤول التطبيق.
-        لن يُنشر الرمز في ملفات GitHub؛
-        سيُحفظ على جهازك بعد إدخاله.
-      </p>
+  <!-- محتوى التطبيق -->
 
-      <label for="key">
-        رمز المشاهدة
-      </label>
+  <div class="app-content">
 
-      <input
-        id="key"
-        type="password"
-        autocomplete="off"
-        placeholder="أدخل الرمز"
-      >
+    <!-- صفحة إدخال رمز المشاهدة -->
+
+    <main id="setup">
+
+      <div class="container">
+
+        <div class="card">
+
+          <div class="app-brand">
+
+            <img
+              src="./icons/icon-192.png"
+              class="app-icon"
+              alt="شعار مصروفاتي">
+
+            <h2>مصروفاتي</h2>
+
+            <p>
+
+              تطبيق عرض المصروفات والميزانيات
+
+              والتقارير المالية والفواتير
+
+            </p>
+
+            <p>
+
+              🔒 وضع المشاهدة فقط
+
+            </p>
+
+          </div>
+
+          <form id="keyForm">
+
+            <label for="keyInput">
+
+              رمز المشاهدة
+
+            </label>
+
+            <div class="password-field">
+
+              <input
+
+                id="keyInput"
+
+                type="password"
+
+                placeholder="أدخل رمز المشاهدة"
+
+                autocomplete="off"
+
+                autocapitalize="off"
+
+                spellcheck="false"
+
+                maxlength="512"
+
+                required>
+
+              <button
+
+                id="toggleKey"
+
+                type="button"
+
+                aria-label="إظهار رمز المشاهدة"
+
+                aria-pressed="false">
+
+                إظهار
+
+              </button>
+
+            </div>
+
+            <label class="remember-row">
+
+              <input
+
+                type="checkbox"
+
+                id="rememberKey">
+
+              <span>
+
+                تذكر رمز المشاهدة على هذا الجهاز
+
+              </span>
+
+            </label>
+
+            <button
+
+              type="submit"
+
+              id="openBtn"
+
+              class="open-btn">
+
+              فتح مصروفاتي
+
+            </button>
+
+          </form>
+
+          <div
+
+            id="status"
+
+            class="status"
+
+            role="status"
+
+            aria-live="polite">
+
+          </div>
+
+          <div class="privacy">
+
+            <b>🔐 الخصوصية والأمان</b>
+
+            <br>
+
+            لا يمكن للمشاهد إضافة المصروفات أو
+
+            تعديلها أو حذفها.
+
+            <br>
+
+            عند اختيار تذكر الرمز، يتم حفظه
+
+            محليًا في متصفح هذا الجهاز.
+
+            <br>
+
+            يُرسل الرمز ضمن رابط تطبيق المشاهدة
+
+            للتحقق من صلاحية الوصول.
+
+            <br>
+
+            لا تستخدم خيار التذكر على الأجهزة المشتركة.
+
+          </div>
+
+        </div>
+
+        <footer>
+
+          مصروفاتي V1.0
+
+          <br>
+
+          إدارة المصروفات والتقارير المالية
+
+        </footer>
+
+      </div>
+
+    </main>
+
+    <!-- إطار عرض التطبيق -->
+
+    <iframe
+
+      id="viewer"
+
+      class="hidden"
+
+      title="مصروفاتي - مشاهدة فقط"
+
+      referrerpolicy="no-referrer"
+
+      allowfullscreen>
+
+    </iframe>
+
+    <!-- شاشة التحميل -->
+
+    <div
+
+      id="loadingOverlay"
+
+      class="loading-overlay hidden"
+
+      role="status"
+
+      aria-live="polite">
+
+      <div class="spinner"></div>
+
+      <div
+
+        id="loadingText"
+
+        class="loading-text">
+
+        جارٍ فتح مصروفاتي...
+
+      </div>
 
       <button
-        id="open"
+
         type="button"
-      >
-        فتح مصروفاتي
+
+        id="cancelLoading"
+
+        class="loading-cancel">
+
+        إلغاء والعودة
+
       </button>
-
-      <p
-        id="status"
-        role="status"
-      ></p>
-
-      <p class="muted">
-        يُحفظ الرمز على هذا الجهاز حتى تضغط
-        «تغيير الرمز» أو تمسح بيانات الموقع.
-
-        لا تستخدم هذه الميزة على جهاز مشترك.
-
-        قد يظهر الرمز في عنوان طلب
-        Google Apps Script داخل أدوات المطور
-        أو سجلات التصفح.
-
-        من يملك الرمز يستطيع الوصول للمشاهدة.
-
-        لا ترسل الرمز لأشخاص غير مخولين.
-      </p>
 
     </div>
 
-  </main>
-
-  <!-- واجهة تطبيق المشاهدة -->
-  <iframe
-    id="viewer"
-    title="مصروفاتي - مشاهدة فقط"
-    referrerpolicy="no-referrer"
-    allow="fullscreen"
-  ></iframe>
+  </div>
 
   <script>
 
-    // ==========================================
-    // رابط تطبيق المشاهدة في Google Apps Script
-    // ==========================================
+    // =====================================
+    // مصروفاتي V1.0
+    // إعدادات GitHub Pages
+    // =====================================
+
+
+    // رابط تطبيق المشاهدة المعتمد.
+    // لا يتم تغييره أثناء تحديث الواجهة.
 
     const BASE =
-      "https://script.google.com/macros/s/AKfycbz49mM_qovzQwVENyQzEOoU_LX81OSRKUne3S_HtQAijv3pW1N6iFWayuxVeHgqFbwUFg/exec";
+
+      'https://script.google.com/macros/s/AKfycbz49mM_qovzQwVENyQzEOoU_LX81OSRKUne3S_HtQAijv3pW1N6iFWayuxVeHgqFbwUFg/exec';
 
 
-    // ==========================================
-    // أدوات مساعدة
-    // ==========================================
+    // المحافظة على اسم التخزين السابق
+    // لضمان عدم فقدان الرموز المحفوظة.
 
-    const $ = id =>
-      document.getElementById(id);
+    const STORAGE_KEY = 'rihlatiViewerKey';
+
+    const LOAD_TIMEOUT = 30000;
+
+    const $ = id => document.getElementById(id);
+
+    let activeKey = '';
+
+    let opening = false;
+
+    let loadTimer = null;
+
+    let savedKey = '';
+
+    let launchSequence = 0;
+
+    let activeFrame = $('viewer');
 
 
-    // ==========================================
-    // فتح تطبيق مصروفاتي للمشاهدة
-    // ==========================================
 
-    function show(k) {
+    // =====================================
+    // التخزين المحلي الآمن من أخطاء المتصفح
+    // =====================================
 
-      $('viewer').src =
-        BASE + '?key=' + encodeURIComponent(k);
+    function readStoredKey() {
 
-      $('viewer').style.display = 'block';
+      try {
 
-      $('setup').style.display = 'none';
+        return localStorage.getItem(
 
-      $('logout').style.display = 'inline-block';
+          STORAGE_KEY
+
+        ) || '';
+
+      } catch (error) {
+
+        return '';
+
+      }
 
     }
 
 
-    // ==========================================
-    // إدخال رمز المشاهدة
-    // ==========================================
+    function saveStoredKey(key) {
 
-    $('open').onclick = () => {
+      try {
 
-      const k = $('key').value.trim();
+        localStorage.setItem(
 
-      if (!k) {
+          STORAGE_KEY,
 
-        $('status').textContent =
-          'أدخل رمز المشاهدة أولاً';
+          key
+
+        );
+
+        return true;
+
+      } catch (error) {
+
+        return false;
+
+      }
+
+    }
+
+
+    function removeStoredKey() {
+
+      try {
+
+        localStorage.removeItem(
+
+          STORAGE_KEY
+
+        );
+
+        return true;
+
+      } catch (error) {
+
+        return false;
+
+      }
+
+    }
+
+
+
+    // =====================================
+    // رسائل الحالة
+    // =====================================
+
+    function setStatus(message, error = false) {
+
+      $('status').textContent = message;
+
+      $('status').className =
+
+        'status' + (error ? ' error' : '');
+
+    }
+
+
+    function showNotice(message) {
+
+      $('connectionNotice').textContent =
+
+        message;
+
+      $('connectionNotice')
+
+        .classList.remove('hidden');
+
+    }
+
+
+    function hideNotice() {
+
+      $('connectionNotice').textContent = '';
+
+      $('connectionNotice')
+
+        .classList.add('hidden');
+
+    }
+
+
+
+    // =====================================
+    // إظهار وإخفاء رمز المشاهدة
+    // =====================================
+
+    function resetPasswordVisibility() {
+
+      $('keyInput').type = 'password';
+
+      $('toggleKey').textContent = 'إظهار';
+
+      $('toggleKey').setAttribute(
+
+        'aria-pressed',
+
+        'false'
+
+      );
+
+      $('toggleKey').setAttribute(
+
+        'aria-label',
+
+        'إظهار رمز المشاهدة'
+
+      );
+
+    }
+
+
+    $('toggleKey').addEventListener(
+
+      'click',
+
+      () => {
+
+        const visible =
+
+          $('keyInput').type === 'password';
+
+        $('keyInput').type =
+
+          visible ? 'text' : 'password';
+
+        $('toggleKey').textContent =
+
+          visible ? 'إخفاء' : 'إظهار';
+
+        $('toggleKey').setAttribute(
+
+          'aria-pressed',
+
+          String(visible)
+
+        );
+
+        $('toggleKey').setAttribute(
+
+          'aria-label',
+
+          visible
+
+            ? 'إخفاء رمز المشاهدة'
+
+            : 'إظهار رمز المشاهدة'
+
+        );
+
+      }
+
+    );
+
+
+
+    // =====================================
+    // شاشة التحميل
+    // =====================================
+
+    function stopLoading() {
+
+      opening = false;
+
+      clearTimeout(loadTimer);
+
+      loadTimer = null;
+
+      $('loadingOverlay')
+
+        .classList.add('hidden');
+
+      $('openBtn').disabled = false;
+
+      $('openBtn').textContent =
+
+        'فتح مصروفاتي';
+
+    }
+
+
+    function startLoading() {
+
+      opening = true;
+
+      $('openBtn').disabled = true;
+
+      $('openBtn').textContent =
+
+        'جارٍ الفتح...';
+
+      $('loadingText').textContent =
+
+        'جارٍ فتح تطبيق مصروفاتي...';
+
+      $('loadingOverlay')
+
+        .classList.remove('hidden');
+
+    }
+
+
+
+    // =====================================
+    // فتح تطبيق المشاهدة
+    // =====================================
+
+    function showViewer(key, remember = false) {
+
+      if (opening) return;
+
+      key = String(key || '').trim();
+
+      if (!key) {
+
+        setStatus(
+
+          'يرجى إدخال رمز المشاهدة.',
+
+          true
+
+        );
+
+        $('keyInput').focus();
 
         return;
 
       }
 
-      // الإبقاء على مفتاح التخزين السابق
-      // حتى لا يفقد المستخدمون الرمز المحفوظ
+      if (key.length > 512) {
 
-      localStorage.setItem(
-        'rihlatiViewerKey',
-        k
+        setStatus(
+
+          'رمز المشاهدة غير صالح.',
+
+          true
+
+        );
+
+        return;
+
+      }
+
+      if (navigator.onLine === false) {
+
+        setStatus(
+
+          'لا يوجد اتصال بالإنترنت.',
+
+          true
+
+        );
+
+        return;
+
+      }
+
+      const sequence = ++launchSequence;
+
+      activeKey = key;
+
+      setStatus('');
+
+      hideNotice();
+
+      // حفظ الرمز اختياري فقط.
+      // لا يعني حفظه أنه تم التحقق من صحته.
+
+      if (remember) {
+
+        const stored = saveStoredKey(key);
+
+        if (!stored) {
+
+          showNotice(
+
+            'تعذر حفظ الرمز على هذا الجهاز، ' +
+
+            'ولكن يمكنك متابعة المشاهدة.'
+
+          );
+
+        }
+
+      } else {
+
+        if (!removeStoredKey()) {
+
+          showNotice(
+
+            'تعذر مسح الرمز المحفوظ. ' +
+
+            'يمكنك مسحه من إعدادات المتصفح.'
+
+          );
+
+        }
+
+      }
+
+      $('keyInput').value = '';
+
+      resetPasswordVisibility();
+
+      $('setup').classList.add('hidden');
+
+      $('logout').classList.remove('hidden');
+
+      // إنشاء إطار جديد لكل محاولة فتح
+      // لمنع تعارض أحداث التحميل السابقة.
+
+      const frame = document.createElement(
+
+        'iframe'
+
       );
 
-      $('key').value = '';
+      frame.id = 'viewer';
 
-      show(k);
+      frame.title =
 
-    };
+        'مصروفاتي - مشاهدة فقط';
 
+      frame.referrerPolicy = 'no-referrer';
 
-    // ==========================================
-    // تغيير رمز المشاهدة
-    // ==========================================
+      frame.allowFullscreen = true;
 
-    $('logout').onclick = () => {
+      frame.addEventListener(
 
-      localStorage.removeItem(
-        'rihlatiViewerKey'
+        'load',
+
+        () => {
+
+          if (
+
+            sequence !== launchSequence ||
+
+            frame !== activeFrame
+
+          ) {
+
+            return;
+
+          }
+
+          stopLoading();
+
+          // اكتمال تحميل الإطار لا يعني
+          // أن رمز المشاهدة صحيح.
+          // التحقق الفعلي يتم داخل Apps Script.
+
+        }
+
       );
 
-      $('viewer').src = 'about:blank';
+      frame.addEventListener(
 
-      $('viewer').style.display = 'none';
+        'error',
 
-      $('setup').style.display = 'block';
+        () => {
 
-      $('logout').style.display = 'none';
+          if (
 
-    };
+            sequence !== launchSequence ||
+
+            frame !== activeFrame
+
+          ) {
+
+            return;
+
+          }
+
+          stopLoading();
+
+          showNotice(
+
+            'تعذر تحميل التطبيق. ' +
+
+            'تحقق من الاتصال أو اختر تغيير الرمز.'
+
+          );
+
+        }
+
+      );
+
+      startLoading();
+
+      loadTimer = setTimeout(
+
+        () => {
+
+          if (sequence !== launchSequence) {
+
+            return;
+
+          }
+
+          stopLoading();
+
+          showNotice(
+
+            'استغرق تحميل التطبيق وقتًا أطول من المعتاد. ' +
+
+            'يمكنك الانتظار أو اختيار تغيير الرمز.'
+
+          );
+
+        },
+
+        LOAD_TIMEOUT
+
+      );
+
+      frame.src =
+
+        BASE + '?key=' +
+
+        encodeURIComponent(key);
+
+      activeFrame.replaceWith(frame);
+
+      activeFrame = frame;
+
+    }
 
 
-    // ==========================================
-    // استعادة رمز المشاهدة المحفوظ
-    // ==========================================
 
-    const existing = localStorage.getItem(
-      'rihlatiViewerKey'
+    // =====================================
+    // العودة إلى صفحة إدخال الرمز
+    // =====================================
+
+    function resetViewer() {
+
+      launchSequence++;
+
+      const removed = removeStoredKey();
+
+      activeKey = '';
+
+      savedKey = '';
+
+      stopLoading();
+
+      const emptyFrame = document.createElement(
+
+        'iframe'
+
+      );
+
+      emptyFrame.id = 'viewer';
+
+      emptyFrame.className = 'hidden';
+
+      emptyFrame.title =
+
+        'مصروفاتي - مشاهدة فقط';
+
+      emptyFrame.referrerPolicy =
+
+        'no-referrer';
+
+      activeFrame.replaceWith(emptyFrame);
+
+      activeFrame = emptyFrame;
+
+      $('logout').classList.add('hidden');
+
+      $('setup').classList.remove('hidden');
+
+      $('keyInput').value = '';
+
+      $('rememberKey').checked = false;
+
+      resetPasswordVisibility();
+
+      hideNotice();
+
+      setStatus(
+
+        removed
+
+          ? 'أدخل رمز المشاهدة للمتابعة.'
+
+          : 'تعذر مسح الرمز المحفوظ من المتصفح.',
+
+        !removed
+
+      );
+
+      $('keyInput').focus();
+
+    }
+
+
+
+    // =====================================
+    // زر فتح التطبيق
+    // =====================================
+
+    $('keyForm').addEventListener(
+
+      'submit',
+
+      event => {
+
+        event.preventDefault();
+
+        showViewer(
+
+          $('keyInput').value,
+
+          $('rememberKey').checked
+
+        );
+
+      }
+
     );
 
-    if (existing) {
 
-      show(existing);
+
+    // =====================================
+    // زر تغيير الرمز
+    // =====================================
+
+    $('logout').addEventListener(
+
+      'click',
+
+      resetViewer
+
+    );
+
+
+
+    // =====================================
+    // إلغاء التحميل
+    // =====================================
+
+    $('cancelLoading').addEventListener(
+
+      'click',
+
+      resetViewer
+
+    );
+
+
+
+    // =====================================
+    // انقطاع الاتصال بالإنترنت
+    // =====================================
+
+    window.addEventListener(
+
+      'offline',
+
+      () => {
+
+        showNotice(
+
+          'انقطع الاتصال بالإنترنت. ' +
+
+          'تحتاج المشاهدة إلى اتصال فعال.'
+
+        );
+
+        stopLoading();
+
+      }
+
+    );
+
+
+
+    // =====================================
+    // استعادة الاتصال
+    // =====================================
+
+    window.addEventListener(
+
+      'online',
+
+      () => {
+
+        hideNotice();
+
+        if (activeKey) {
+
+          const remember =
+
+            readStoredKey() === activeKey;
+
+          // إعادة فتح التطبيق إذا انقطع
+          // الاتصال أثناء تحميل الإطار.
+
+          showViewer(activeKey, remember);
+
+        } else {
+
+          setStatus(
+
+            'تم استعادة الاتصال بالإنترنت.'
+
+          );
+
+        }
+
+      }
+
+    );
+
+
+
+    // =====================================
+    // تهيئة التطبيق
+    // =====================================
+
+    function initializeApp() {
+
+      savedKey = readStoredKey();
+
+      if (savedKey) {
+
+        $('rememberKey').checked = true;
+
+        if (navigator.onLine === false) {
+
+          $('keyInput').value = savedKey;
+
+          showNotice(
+
+            'لا يوجد اتصال بالإنترنت. ' +
+
+            'يمكنك فتح التطبيق عند عودة الاتصال.'
+
+          );
+
+          return;
+
+        }
+
+        showViewer(savedKey, true);
+
+      } else {
+
+        $('rememberKey').checked = false;
+
+      }
 
     }
 
 
-    // ==========================================
+
+    // =====================================
     // تسجيل Service Worker
-    // ==========================================
+    // =====================================
 
-    if ('serviceWorker' in navigator) {
+    async function registerServiceWorker() {
 
-      navigator.serviceWorker
-        .register('./service-worker.js')
-        .catch(() => {});
+      if (!('serviceWorker' in navigator)) {
+
+        return;
+
+      }
+
+      try {
+
+        const registration =
+
+          await navigator.serviceWorker.register(
+
+            './service-worker.js'
+
+          );
+
+        try {
+
+          await registration.update();
+
+        } catch (error) {
+
+          // عدم تعطيل التطبيق عند تعذر التحديث.
+
+        }
+
+      } catch (error) {
+
+        console.warn(
+
+          'تعذر تسجيل Service Worker'
+
+        );
+
+      }
 
     }
+
+
+
+    // =====================================
+    // تشغيل مصروفاتي
+    // =====================================
+
+    initializeApp();
+
+    registerServiceWorker();
+
+
+
+    // =====================================
+    // MASROFATI V1.0
+    // نهاية الكود
+    // =====================================
 
   </script>
 
 </body>
+
 </html>
