@@ -1,10 +1,10 @@
 
-// ==========================================
-// مصروفاتي V1.0
-// Service Worker
-// ==========================================
+ // ==========================================
+ // مصروفاتي V1.0
+ // Service Worker - Cache V6
+ // ==========================================
 
-const CACHE = 'rihlati-view-shell-v5';
+const CACHE = 'rihlati-view-shell-v6';
 
 const CACHE_PREFIX = 'rihlati-view-shell-';
 
@@ -191,8 +191,11 @@ function offlinePage() {
       <meta charset="UTF-8">
       <meta name="viewport"
             content="width=device-width, initial-scale=1">
+
       <title>مصروفاتي | لا يوجد اتصال</title>
+
       <style>
+
         body {
           margin: 0;
           background: #f1f7fa;
@@ -232,25 +235,39 @@ function offlinePage() {
           font-family: inherit;
           cursor: pointer;
         }
+
       </style>
+
     </head>
+
     <body>
+
       <div class="card">
+
         <h1>💳 مصروفاتي</h1>
+
         <h3>لا يوجد اتصال بالإنترنت</h3>
+
         <p>
           يرجى التحقق من اتصالك بالإنترنت
           ثم إعادة المحاولة.
         </p>
+
         <p>
           🔒 لا يتم تخزين البيانات المالية
           والفواتير ضمن ذاكرة التطبيق المؤقتة.
         </p>
+
         <button onclick="location.reload()">
+
           إعادة المحاولة
+
         </button>
+
       </div>
+
     </body>
+
     </html>`,
 
     {
@@ -414,5 +431,6 @@ self.addEventListener('fetch', event => {
 
 // ==========================================
 // MASROFATI V1.0
+// Cache Version: V6
 // نهاية الكود
 // ==========================================
